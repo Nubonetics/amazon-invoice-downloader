@@ -1,0 +1,36 @@
+[project]
+name = "amazon-invoice-downloader"
+version = "0.1.0"
+description = "Logs into an Amazon.com account and downloads invoices as PDF"
+authors = ["David C Wang <dcwangmit01@gmail.com>"]
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
+
+[dependencies]
+python = ">=3.7,<3.12"
+docopt = "~=0.6.2"
+pip = "*"
+
+[pypi-dependencies]
+playwright = ">=1.36.0"
+
+[feature.dev.dependencies]
+pytest = "*"
+coverage = "*"
+black = ">=23.1.0"
+mypy = ">=1.0.0"
+ruff = ">=0.0.243"
+
+[environments]
+default = ["dev"]
+
+[tasks]
+test = "pytest tests"
+test-cov = "coverage run -m pytest tests"
+cov-report = "coverage combine && coverage report"
+cov = { depends-on = ["test-cov", "cov-report"] }
+lint-style = "ruff . && black --check --diff ."
+lint-typing = "mypy --install-types --non-interactive src/amazon_invoice_downloader tests"
+lint = { depends-on = ["lint-style", "lint-typing"] }
+format = "black . && ruff --fix . && ruff . && black --check --diff ."
+install-playwright = "playwright install" 
