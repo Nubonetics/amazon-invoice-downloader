@@ -33,4 +33,6 @@ lint-style = "ruff . && black --check --diff ."
 lint-typing = "mypy --install-types --non-interactive src/amazon_invoice_downloader tests"
 lint = { depends-on = ["lint-style", "lint-typing"] }
 format = "black . && ruff --fix . && ruff . && black --check --diff ."
-install-playwright = "playwright install" 
+install-playwright = "playwright install"
+install = "pip install -e ."
+downloader = { depends-on = ["install"], cmd = "python -m amazon_invoice_downloader" } 
